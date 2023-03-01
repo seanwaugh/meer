@@ -174,8 +174,8 @@ void Init_Output( void )
                     Meer_Log(ERROR, "Cannot open %s. Abort!", MeerOutput->pipe_location);
                 }
 
-            //current_pipe_size = fcntl(MeerOutput->pipe_fd, F_GETPIPE_SZ);
-            //fd_results = fcntl(MeerOutput->pipe_fd, F_SETPIPE_SZ, MeerOutput->pipe_size);
+            current_pipe_size = fcntl(MeerOutput->pipe_fd, F_GETPIPE_SZ);
+            fd_results = fcntl(MeerOutput->pipe_fd, F_SETPIPE_SZ, MeerOutput->pipe_size);
             fcntl(MeerOutput->pipe_fd, F_SETFL, O_NONBLOCK);
 
             Meer_Log(NORMAL, "The %s pipe (FIFO) was %d bytes. It is now set to %d bytes.", MeerOutput->pipe_location, current_pipe_size, fd_results);
@@ -560,12 +560,12 @@ bool Output_Alert_SQL ( struct _DecodeAlert *DecodeAlert )
                     (void)SQL_DB_Query(tmp);
                     MeerCounters->UPDATECount++;
 
-                    //snprintf(tmp, sizeof(tmp),
-                    //         "UPDATE signature SET events_count = events_count+1 WHERE sig_id = %u",
-                    //         signature_id );
+                    snprintf(tmp, sizeof(tmp),
+                             "UPDATE signature SET events_count = events_count+1 WHERE sig_id = %u",
+                             signature_id );
 
-                    //(void)SQL_DB_Query(tmp);
-                    //MeerCounters->UPDATECount++;
+                    (void)SQL_DB_Query(tmp);
+                    MeerCounters->UPDATECount++;
 
                     /*
                     #ifdef HAVE_LIBHIREDIS
